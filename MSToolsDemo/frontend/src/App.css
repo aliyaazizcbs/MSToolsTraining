@@ -914,3 +914,235 @@
   text-align: center;
 }
 
+/* ── Rule Builder section wrapper ── */
+.rule-builder-section {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.section-heading {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  text-align: center;
+}
+
+.section-subheading {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin: 0.4rem 0 0;
+  text-align: center;
+}
+
+.section-intro {
+  max-width: 640px;
+  text-align: center;
+}
+
+/* ── Rule Builder card ── */
+.rb-card {
+  width: 100%;
+  max-width: 860px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.rb-intro {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.rb-sub-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem;
+}
+
+/* Scenario preview list */
+.rb-scenarios-preview {
+  background: var(--weather-card-bg);
+  border: 1px solid var(--weather-card-border);
+  border-radius: 0.75rem;
+  padding: 0.875rem 1.25rem;
+}
+
+.rb-scenario-list {
+  margin: 0.25rem 0 0;
+  padding-left: 1.5rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 2;
+}
+
+/* Rule rows */
+.rb-rules {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.rb-rule-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  background: var(--weather-card-bg);
+  border: 1px solid var(--weather-card-border);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+}
+
+.rb-row-num {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-tertiary);
+  min-width: 1.25rem;
+  text-align: center;
+}
+
+.rb-keyword {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent-gradient-start);
+  padding: 0 0.1rem;
+}
+
+.rb-select {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--weather-card-border);
+  border-radius: 0.5rem;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  padding: 0.35rem 0.6rem;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.rb-select:focus {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 2px;
+}
+
+.rb-select-action {
+  font-weight: 600;
+}
+
+.rb-remove-btn {
+  background: transparent;
+  border: 1px solid var(--error-border);
+  border-radius: 0.4rem;
+  color: var(--error-text);
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  margin-left: auto;
+  transition: background 0.2s;
+}
+
+.rb-remove-btn:hover {
+  background: var(--error-bg);
+}
+
+/* Add / Run buttons */
+.rb-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.rb-add-btn {
+  background: transparent;
+  border: 2px dashed var(--weather-card-border);
+  border-radius: 0.6rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.rb-add-btn:hover {
+  border-color: var(--accent-gradient-start);
+  color: var(--text-primary);
+}
+
+.rb-run-btn {
+  flex: 1;
+  min-width: 160px;
+}
+
+/* Results */
+.rb-results {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  animation: fadeInUp 0.3s ease-out;
+}
+
+.rb-result-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid transparent;
+}
+
+.rb-pass {
+  background: rgba(0, 204, 68, 0.08);
+  border-color: rgba(0, 204, 68, 0.3);
+}
+
+.rb-fail {
+  background: var(--error-bg);
+  border-color: var(--error-border);
+}
+
+.rb-result-icon {
+  font-size: 1.2rem;
+  line-height: 1.4;
+  flex-shrink: 0;
+}
+
+.rb-result-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.rb-result-desc {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.rb-result-actions {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.rb-congrats {
+  margin: 0.25rem 0 0;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.6;
+}
+
+@media (prefers-color-scheme: light) {
+  .rb-select {
+    background: rgba(0, 0, 0, 0.04);
+  }
+}
+

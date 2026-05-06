@@ -44,6 +44,12 @@ api.MapPost("trafficlight/next", (TrafficLightRequest req) =>
 })
 .WithName("GetNextTrafficLight");
 
+api.MapGet("scenarios", () => Results.Ok(ScenarioLogic.GetScenarios()))
+   .WithName("GetScenarios");
+
+api.MapPost("scenarios/evaluate", (EvaluateRequest req) => Results.Ok(ScenarioLogic.Evaluate(req)))
+   .WithName("EvaluateScenarios");
+
 app.MapDefaultEndpoints();
 
 app.UseFileServer();

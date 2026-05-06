@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './App.css'
+import { RuleBuilder } from './RuleBuilder'
 
 type LightState = 'red' | 'red-amber' | 'green' | 'amber'
 
@@ -121,6 +122,15 @@ public static string GetNextLight(string current)
           </p>
         </div>
       </main>
+
+      {/* Rule builder section */}
+      <section className="rule-builder-section">
+        <div className="section-intro">
+          <h2 className="section-heading">Part 2 — Write the logic yourself</h2>
+          <p className="section-subheading">Now you've seen the traffic light sequence, try writing the <strong>driver's decision rules</strong> using IF / THEN blocks.</p>
+        </div>
+        <RuleBuilder />
+      </section>
 
       <footer className="app-footer">
         <p>MS Tools Demo — coding is about logic, not maths! 🎉</p>
