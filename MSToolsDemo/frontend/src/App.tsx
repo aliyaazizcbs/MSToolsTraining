@@ -1,8 +1,19 @@
 import { useState } from 'react'
 import './App.css'
-import { RuleBuilder } from './RuleBuilder'
 
 type LightState = 'red' | 'red-amber' | 'green' | 'amber'
+
+interface ScenarioResult {
+  scenarioId: number
+  description: string
+  passed: boolean
+  appliedAction: string
+  correctAction: string
+}
+
+const ACTION_LABELS: Record<string, string> = {
+  stop: '🛑 Stop', go: '🚗 Go', wait: '⏳ Wait', 'slow-down': '🐢 Slow down', none: '❌ No rule matched',
+}
 
 const LIGHT_LABELS: Record<LightState, string> = {
   'red':       'RED — Stop',
@@ -16,6 +27,26 @@ function App() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [broken, setBroken] = useState(true)
+
+  // Scenario tester state
+  const [scenarioResults, setScenarioResults] = useState<ScenarioResult[] | null>(null)
+  const [scenarioLoading, setScenarioLoading] = useState(false)
+  const [scenarioError, setScenarioError] = useState<string | null>(null)
+
+  const testRules = async () => {
+    setScenarioLoading(true)
+    setScenarioError(null)
+    try {
+      const res = await fetch('/api/scenarios/evaluate')
+      if (!res.ok) throw new Error(`Server error: ${res.status}`)
+      const data = await res.json()
+      setScenarioResults(data.results)
+    } catch (err) {
+      setScenarioError(err instanceof Error ? err.message : 'Something went wrong')
+    } finally {
+      setScenarioLoading(false)
+    }
+  }
 
   const advance = async () => {
     if (loading) return
@@ -123,13 +154,56 @@ public static string GetNextLight(string current)
         </div>
       </main>
 
-      {/* Rule builder section */}
+      {/* Scenario tester section */}
       <section className="rule-builder-section">
         <div className="section-intro">
-          <h2 className="section-heading">Part 2 — Write the logic yourself</h2>
-          <p className="section-subheading">Now you've seen the traffic light sequence, try writing the <strong>driver's decision rules</strong> using IF / THEN blocks.</p>
+          <h2 className="section-heading">Part 2 — IF / THEN Logic</h2>
+          <p className="section-subheading">
+            Three scenarios are loaded on the server. The rules in <code>ScenarioLogic.cs</code> are wrong — fix them, rebuild, then hit <strong>Test rules</strong>.
+          </p>
         </div>
-        <RuleBuilder />
+
+        <div className="card rb-card">
+          <h3 className="rb-sub-title">📋 The 3 scenarios:</h3>
+          <ol className="rb-scenario-list">
+            <li>🔴 Red light — no pedestrians</li>
+            <li>🟢 Green light — crossing is clear</li>
+            <li>🟢 Green light — pedestrian is crossing</li>
+          </ol>
+
+          <div className="rb-actions">
+            <button className="increment-button rb-run-btn" onClick={testRules} disabled={scenarioLoading} type="button">
+              {scenarioLoading ? 'Testing...' : '▶ Test rules'}
+            </button>
+          </div>
+
+          {scenarioError && <div className="error-message" role="alert"><span>{scenarioError}</span></div>}
+
+          {scenarioResults && (
+            <div className="rb-results" role="status" aria-live="polite">
+              <h3 className="rb-sub-title">
+                {scenarioResults.every(r => r.passed) ? '🎉 All scenarios passed!' : '🔍 Results:'}
+              </h3>
+              {scenarioResults.map(r => (
+                <div key={r.scenarioId} className={`rb-result-row ${r.passed ? 'rb-pass' : 'rb-fail'}`}>
+                  <span className="rb-result-icon">{r.passed ? '✅' : '❌'}</span>
+                  <div className="rb-result-detail">
+                    <p className="rb-result-desc">{r.description}</p>
+                    <p className="rb-result-actions">
+                      Rule said: <strong>{ACTION_LABELS[r.appliedAction] ?? r.appliedAction}</strong>
+                      {!r.passed && <> — correct: <strong>{ACTION_LABELS[r.correctAction] ?? r.correctAction}</strong></>}
+                    </p>
+                  </div>
+                </div>
+              ))}
+              {scenarioResults.every(r => r.passed) && (
+                <p className="rb-congrats">
+                  Your rules correctly handle all three scenarios — that's an <code>if / else if / else</code> chain in action! 🚦
+                </p>
+              )}
+            </div>
+          )}
+        </div>
       </section>
 
       <footer className="app-footer">

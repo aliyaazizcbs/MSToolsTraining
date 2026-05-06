@@ -44,10 +44,7 @@ api.MapPost("trafficlight/next", (TrafficLightRequest req) =>
 })
 .WithName("GetNextTrafficLight");
 
-api.MapGet("scenarios", () => Results.Ok(ScenarioLogic.GetScenarios()))
-   .WithName("GetScenarios");
-
-api.MapPost("scenarios/evaluate", (EvaluateRequest req) => Results.Ok(ScenarioLogic.Evaluate(req)))
+api.MapGet("scenarios/evaluate", () => Results.Ok(ScenarioLogic.Evaluate()))
    .WithName("EvaluateScenarios");
 
 app.MapDefaultEndpoints();

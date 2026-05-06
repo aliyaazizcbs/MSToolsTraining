@@ -1,10 +1,4 @@
-public record Scenario(int Id, string Description, string Light, bool PedestriansCrossing);
-
-public record ScenarioWithAnswer(int Id, string Description, string Light, bool PedestriansCrossing, string CorrectAction);
-
 public record Rule(string ConditionLight, bool? ConditionPedestrians, string Action);
-
-public record EvaluateRequest(List<Rule> Rules);
 
 public record ScenarioResult(int ScenarioId, string Description, bool Passed, string AppliedAction, string CorrectAction);
 
@@ -12,41 +6,43 @@ public record EvaluateResponse(List<ScenarioResult> Results);
 
 public static class ScenarioLogic
 {
-    private static readonly ScenarioWithAnswer[] _scenarios =
+    // The 3 test scenarios — read-only, do not change these
+    private static readonly (int Id, string Description, string Light, bool Pedestrians, string CorrectAction)[] _scenarios =
     [
-        new(1, "🚗 You approach a junction. The light is RED. No pedestrians are crossing.", "red",   false, "stop"),
-        new(2, "🚗 The light turns GREEN. The crossing ahead is completely clear.",          "green", false, "go"),
-        new(3, "🚗 The light is GREEN but a pedestrian has stepped onto the crossing.",      "green", true,  "wait"),
+        (1, "🚗 Light is RED — no pedestrians crossing",          "red",   false, "stop"),
+        (2, "🚗 Light is GREEN — crossing is completely clear",    "green", false, "go"),
+        (3, "🚗 Light is GREEN — pedestrian has stepped out",      "green", true,  "wait"),
     ];
 
-    public static Scenario[] GetScenarios() =>
-        _scenarios.Select(s => new Scenario(s.Id, s.Description, s.Light, s.PedestriansCrossing)).ToArray();
+    // TODO: The rules below give the WRONG actions — that's why the driver keeps crashing!
+    // Can you fix all three so the driver behaves correctly?
+    // Rules are checked top-to-bottom; the first matching rule wins.
+    private static readonly Rule[] _rules =
+    [
+        new("red",   null,  "go"),   // ← Rule 1: light is red  — action should be "stop"
+        new("green", false, "stop"), // ← Rule 2: green, clear  — action should be "go"
+        new("green", true,  "go"),   // ← Rule 3: green + peds  — action should be "wait"
+    ];
 
-    public static EvaluateResponse Evaluate(EvaluateRequest request)
+    public static EvaluateResponse Evaluate()
     {
         var results = new List<ScenarioResult>();
 
-        foreach (var scenario in _scenarios)
+        foreach (var s in _scenarios)
         {
-            var appliedAction = ApplyRules(request.Rules, scenario) ?? "none";
-            results.Add(new ScenarioResult(
-                scenario.Id,
-                scenario.Description,
-                appliedAction == scenario.CorrectAction,
-                appliedAction,
-                scenario.CorrectAction
-            ));
+            var action = ApplyRules(s.Light, s.Pedestrians) ?? "none";
+            results.Add(new ScenarioResult(s.Id, s.Description, action == s.CorrectAction, action, s.CorrectAction));
         }
 
         return new EvaluateResponse(results);
     }
 
-    private static string? ApplyRules(List<Rule> rules, ScenarioWithAnswer scenario)
+    private static string? ApplyRules(string light, bool pedestrians)
     {
-        foreach (var rule in rules)
+        foreach (var rule in _rules)
         {
-            var lightMatch = rule.ConditionLight == "any" || rule.ConditionLight == scenario.Light;
-            var pedestriansMatch = rule.ConditionPedestrians == null || rule.ConditionPedestrians == scenario.PedestriansCrossing;
+            var lightMatch = rule.ConditionLight == "any" || rule.ConditionLight == light;
+            var pedestriansMatch = rule.ConditionPedestrians == null || rule.ConditionPedestrians == pedestrians;
             if (lightMatch && pedestriansMatch)
                 return rule.Action;
         }
