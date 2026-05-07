@@ -1059,3 +1059,107 @@
   }
 }
 
+/* ── Signup Form ──────────────────────────────────────────────── */
+
+.signup-card {
+  width: 100%;
+  max-width: 480px;
+}
+
+.signup-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.signup-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.01em;
+}
+
+.signup-required {
+  color: #f87171;
+  margin-left: 0.1rem;
+}
+
+.signup-input {
+  background: var(--weather-card-bg);
+  border: 1px solid var(--weather-card-border);
+  border-radius: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+}
+
+.signup-input::placeholder {
+  color: var(--text-tertiary);
+  opacity: 0.7;
+}
+
+.signup-input:focus {
+  border-color: var(--accent-gradient-start);
+  box-shadow: 0 0 0 3px rgba(124, 146, 245, 0.2);
+}
+
+@media (prefers-color-scheme: light) {
+  .signup-input {
+    background: #ffffff;
+  }
+}
+
+.signup-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.signup-btn {
+  flex: 1;
+  height: var(--cta-height);
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.signup-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.signup-btn-primary {
+  background: linear-gradient(135deg, var(--accent-gradient-start) 0%, var(--accent-gradient-end) 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.signup-btn-primary:not(:disabled):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.45);
+}
+
+.signup-btn-secondary {
+  background: transparent;
+  border: 1px solid var(--weather-card-border);
+  color: var(--text-secondary);
+}
+
+.signup-btn-secondary:not(:disabled):hover {
+  border-color: var(--accent-gradient-start);
+  color: var(--text-primary);
+}
+
+.signup-required-note {
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+  margin: 0;
+}
+
