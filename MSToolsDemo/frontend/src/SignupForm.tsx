@@ -8,11 +8,15 @@ function SignupForm() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [showModal, setShowModal] = useState(false)
 
+  // True only when a password has been typed AND confirm doesn't match yet
+  const passwordMismatch = password.length > 0 && confirmPassword !== password
+
   // =========================================================
   // TODO: Add logic here to decide when the Sign Up button
   //       should be enabled.
   // Hint: All mandatory fields (First Name, Email, Password)
-  //       must be filled in before the user can sign up.
+  //       must be filled in before the user can sign up,
+  //       AND passwordMismatch must be false.
   // =========================================================
   const isSignupEnabled = false
 
@@ -121,12 +125,24 @@ function SignupForm() {
             </label>
             <input
               id="confirmPassword"
-              className={inputClass}
+              className={
+                'w-full rounded-lg border px-4 py-2.5 text-sm text-gray-900 placeholder-gray-400 ' +
+                'focus:ring-2 focus:outline-none transition ' +
+                (passwordMismatch
+                  ? 'border-red-400 bg-red-50 focus:border-red-500 focus:ring-red-200'
+                  : 'border-gray-300 bg-white focus:border-indigo-500 focus:ring-indigo-200')
+              }
               type="password"
               placeholder="Re-enter your password"
               value={confirmPassword}
               onChange={e => setConfirmPassword(e.target.value)}
+              aria-describedby={passwordMismatch ? 'confirm-error' : undefined}
             />
+            {passwordMismatch && (
+              <p id="confirm-error" className="mt-1 text-xs text-red-500">
+                Passwords do not match
+              </p>
+            )}
           </div>
 
           {/* Required note */}
