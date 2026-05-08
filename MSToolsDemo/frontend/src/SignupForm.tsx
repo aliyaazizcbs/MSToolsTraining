@@ -8,11 +8,16 @@ function SignupForm() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [showModal, setShowModal] = useState(false)
 
-  // True only when a password has been typed AND confirm doesn't match yet
-  const passwordMismatch = password.length > 0 && confirmPassword !== password
+  // =========================================================
+  // TODO: (1) Add logic here to decide when the password mismatch 
+  // error should be shown.
+  // Hint: Only show it when the user has entered something in 
+  // the Confirm Password field, AND it doesn't match the Password field.
+  // =========================================================
+  const passwordMismatch = true
 
   // =========================================================
-  // TODO: Add logic here to decide when the Sign Up button
+  // TODO: (2) Add logic here to decide when the Sign Up button
   //       should be enabled.
   // Hint: All mandatory fields (First Name, Email, Password)
   //       must be filled in before the user can sign up,
@@ -21,7 +26,7 @@ function SignupForm() {
   const isSignupEnabled = false
 
   // =========================================================
-  // TODO: Add logic here to decide when the Clear button
+  // TODO: (3) Add logic here to decide when the Clear button
   //       should be enabled.
   // Hint: Enable it whenever at least one field has a value.
   // =========================================================
